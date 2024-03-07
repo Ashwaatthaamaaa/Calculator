@@ -5,6 +5,17 @@
     min-height: 95vh;
 }
 
+.operator{
+    background-color:#FF8F1F;
+}
+
+.clear{
+    background-color: red;
+}
+
+.operand{
+    background-color: green;
+}
 
 
 .calculator {

@@ -22,7 +22,7 @@ button.addEventListener('click',(event) => {
             }
             else{
                 let result = evaluateInfixExpression(computeArray);
-                display.value = result;
+                display.value = result.toFixed(4);
                 computeArray=[];
                 computeArray.push(result);
             }

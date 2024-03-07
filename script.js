@@ -22,7 +22,7 @@ button.addEventListener('click',(event) => {
             }
             else{
                 let result = evaluateInfixExpression(computeArray);
-                display.value = result.toFixed(4);
+                display.value =formatNumber(result,4);
                 computeArray=[];
                 computeArray.push(result);
             }
@@ -117,5 +117,22 @@ function evaluateInfixExpression(expression) {
 
     return operands.pop();
 }
+
+
+//rounding the result to 4 decimal places and ignoring this for integer result
+function formatNumber(num, decimalPlaces) {
+    const integer = Math.floor(num);
+    const fraction = num - integer;
+  
+    if (fraction === 0) {
+      // If the number is an integer, return it as a string
+      return integer.toString();
+    } else {
+      // Otherwise, format the number with the specified number of decimal places
+      const multiplier = Math.pow(10, decimalPlaces);
+      const formattedNumber = (integer + Math.round(fraction * multiplier) / multiplier).toFixed(decimalPlaces);
+      return formattedNumber;
+    }
+  }
 
 console.log(computeArray);

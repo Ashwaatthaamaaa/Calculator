@@ -18,7 +18,9 @@
 }
 
 .display{
+    display: block;
     text-align: right;
+    min-width: 100px;
 }
 
 

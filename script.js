@@ -4,6 +4,9 @@ let computeArray = [];
 let value="";
 let button = document.querySelector('.symbols');
 let display = document.querySelector('.display');
+
+
+
 button.addEventListener('click',(event) => {
     let target = event.target;
 
@@ -21,16 +24,21 @@ button.addEventListener('click',(event) => {
                 break;
             }
             else{
-                let result = evaluateInfixExpression(computeArray);
-                display.value =formatNumber(result,4);
-                computeArray=[];
-                computeArray.push(result);
+                if (isNaN(computeArray[computeArray.length -1]) == false){
+                    let result = evaluateInfixExpression(computeArray);
+                    display.value = formatNumber(result,4);
+                    computeArray=[];
+                    computeArray.push(result);
+                }
+
             }
 
 
     }
 })
 
+
+//this function stores the entered expression to be evaluated later
 function record(operand){
     if(isNaN(operand) && operand != "."){
         if(value != "") computeArray.push(value);
@@ -41,6 +49,9 @@ function record(operand){
         value += operand;
     }
 }
+
+
+
 
 function evaluateInfixExpression(expression) {
     const calculate = (operands, operators) => {
@@ -134,5 +145,3 @@ function formatNumber(num, decimalPlaces) {
       return formattedNumber;
     }
   }
-
-console.log(computeArray);

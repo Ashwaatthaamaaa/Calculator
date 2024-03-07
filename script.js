@@ -4,7 +4,7 @@ let computeArray = [];
 let value="";
 let button = document.querySelector('.symbols');
 let display = document.querySelector('.display');
-
+let decimal = document.querySelector(".decimal");
 
 
 button.addEventListener('click',(event) => {
@@ -13,9 +13,12 @@ button.addEventListener('click',(event) => {
     switch(true){
         case target.classList.contains('clear'):
             display.value = "";
+            value = "";
             computeArray=[];
             break;
         case target.classList.contains('op'):
+            if (target.classList.contains('decimal')) target.disabled = true;
+
             record(target.textContent);
 
             //computeArray.push(target.textContent);
@@ -26,7 +29,8 @@ button.addEventListener('click',(event) => {
             else{
                 if (isNaN(computeArray[computeArray.length -1]) == false){
                     let result = evaluateInfixExpression(computeArray);
-                    display.value = formatNumber(result,4);
+                    if (result != "CAN'T DIVIDE BY 0") display.value = formatNumber(result,4);
+                    else display.value = "CAN'T DIVIDE BY 0";
                     computeArray=[];
                     computeArray.push(result);
                 }
@@ -44,6 +48,7 @@ function record(operand){
         if(value != "") computeArray.push(value);
         if (operand !== "=") computeArray.push(operand);
         value="";
+        decimal.disabled = false;
     }
     else{
         value += operand;
@@ -52,11 +57,10 @@ function record(operand){
 
 
 
-
-function evaluateInfixExpression(expression) {
+function evaluateInfixExpression(tokens) {
     const calculate = (operands, operators) => {
-        const a = operands.pop();
-        const b = operands.pop();
+        const a = parseFloat(operands.pop());
+        const b = parseFloat(operands.pop());
         const operator = operators.pop();
 
         switch (operator) {
@@ -71,9 +75,10 @@ function evaluateInfixExpression(expression) {
             case '/':
                 if (a === 0) {
                     return "Nan";
-                    //throw new Error("Cannot divide by zero");
                 }
                 return b / a;
+            case '%':
+                return b % a;
         }
     };
 
@@ -84,6 +89,7 @@ function evaluateInfixExpression(expression) {
                 return 1;
             case '*':
             case '/':
+            case '%': // Modulus operator
                 return 2;
             case '**':
                 return 3;
@@ -91,38 +97,37 @@ function evaluateInfixExpression(expression) {
         return -1;
     };
 
-    const isOperator = (c) => ['+', '-', '*', '/', '**'].includes(c);
-
-    const tokens = expression;
+    const isOperator = (c) => ['+', '-', '*', '/', '**', '%'].includes(c);
 
     const operands = [];
     const operators = [];
 
-    tokens.forEach((token) => {
-        if (!isNaN(token)) {
-            operands.push(parseInt(token));
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
+        if (!isNaN(parseFloat(token))) {
+            operands.push(parseFloat(token));
         } else if (token === '(') {
             operators.push(token);
         } else if (token === ')') {
             while (operators[operators.length - 1] !== '(') {
                 const ans = calculate(operands, operators);
-                if (ans == "Nan") return "NO!!!!";
+                if (ans == "Nan") return "CAN'T DIVIDE BY 0";
                 operands.push(ans);
             }
             operators.pop();
         } else if (isOperator(token)) {
             while (operators.length && precedence(token) <= precedence(operators[operators.length - 1])) {
                 const ans = calculate(operands, operators);
-                if (ans == "Nan") return "NO!!!!";
+                if (ans == "Nan") return "CAN'T DIVIDE BY 0";
                 operands.push(ans);
             }
             operators.push(token);
         }
-    });
+    }
 
     while (operators.length) {
         const ans = calculate(operands, operators);
-        if (ans == "Nan") return "NO!!!!";
+        if (ans == "Nan") return "CAN'T DIVIDE BY 0";
         operands.push(ans);
     }
 

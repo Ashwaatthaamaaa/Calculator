@@ -1,54 +1,77 @@
-#container{
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 95vh;
+    min-height: 100vh;
+    background-color: #1c1c1e;
 }
-
-.operator{
-    background-color:#FF8F1F;
-}
-
-.clear{
-    background-color: red;
-}
-
-.operand{
-    background-color: green;
-}
-
 
 .calculator {
-    display: flex;
-    border: 10px solid rgba(47,47,47,1);
-    background-color: brown;
-    flex-direction: column;
-    padding: 0;
+    display: grid;
+    grid-template-rows: 20% 80%;
+    background-color: #000000;
+    height: 600px;
+    width: 450px;
+    border-radius: 50px;
+}
+
+.buttons-container{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 15px;
+    column-gap: 15px;
+    padding: 18px;
+}
+
+.display {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    font-size: 36px;
+    height: 92px;
+    width: 400px;
     border: none;
-    text-align: center;
-}
-
-.display{
-    display: block;
+    outline: none;
     text-align: right;
-    min-width: 100px;
+    border-radius: 50px;
 }
 
-
-.symbols {
+button {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    border: 1px solid black;
-    text-align: center; /* Aligns text horizontally */
-    line-height: inherit;
-}
-
-button{
-    display: flex;
-    align-items: center; /* Aligns content vertically */
+    align-items: center;
     justify-content: center;
-    border: 3px solid black;
-    flex-basis: 25%;
-    
+    border: none;
+    border-radius: 100%;
+    font-size: 24px;
+    padding: 20px;
+    cursor: pointer;
+    background: #323332;
+    color: #fff;
+}
+
+.button-0{
+    grid-column: span 2;
+    border-radius: 1000px;
+}
+
+.operator {
+    background-color: #FE9F0B;
+}
+
+.clear {
+    background-color: #a5a5a5;
+    color: #000;
+}
+
+.operand {
+    background-color: #333333;
+}
+
+.equals {
+    background-color: #2e2e2e;
 }
